@@ -169,6 +169,18 @@ namespace KDS
 
             Axis = AxisList.ToArray();
         }
+        
+        public void SetPolynomialPosition(Polynomial[] polynomials)
+        {
+            for (int i = 0; i < Axis.Length; i++)
+            {
+                SimulationPointAxis? axis = Axis[i];
+                axis.Pol = polynomials[i];
+            }
+
+            RecomputedPolynomialCount++;
+            PredictionChanged?.Invoke(this, Axis.Select(x => x.Pol!).ToArray(), SimulatorState.CurrentTime);
+        }
 
         /// <summary>
         /// Records the last position into the structure. Recomputes predictions if required.
